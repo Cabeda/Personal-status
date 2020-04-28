@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 
 function App() {
   const [value, setValue] = React.useState<string>("");
