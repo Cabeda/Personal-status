@@ -6,7 +6,7 @@ import styled from "styled-components";
 function App() {
   const [value, setValue] = React.useState<string>("");
 
-  const { status, data, error } = useQuery(
+  useQuery(
     "todos",
     async () => {
       const { data } = await axios.get(
@@ -17,7 +17,7 @@ function App() {
     },
     {
       // Refetch the data every second
-      refetchInterval: 1000,
+      refetchInterval: 100,
     }
   );
 
@@ -39,9 +39,7 @@ function App() {
     }
   };
 
-  return (
-      <DIV></DIV>
-  );
+  return <DIV></DIV>;
 }
 
 export default App;

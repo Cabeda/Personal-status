@@ -1,4 +1,22 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Personal Status
+
+Listen for a status from https://patchbay.pub/pubsub/cabeda-status.
+
+Available status are:
+
+- Busy (red)
+- Available (green)
+- Anything else (yellow)
+
+You can change the status with the following commands
+
+```shell
+
+curl --request POST \
+  --url https://patchbay.pub/pubsub/cabeda-status \
+  --header 'Content-Type: text/plain' \
+  --data <busy|available>
+```
 
 ## Available Scripts
 
