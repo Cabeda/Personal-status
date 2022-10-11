@@ -1,10 +1,30 @@
 import React from "react";
 import axios from "axios";
-import { useQuery } from "react-query";
-import styled from "styled-components";
+import { QueryClientProvider, QueryClient, useQuery } from "react-query";
+import styled, { ThemeProvider } from "styled-components";
 
-function App() {
-  const [value, setValue] = React.useState<string>("");
+const queryClient = new QueryClient();
+
+const setColorByStatus = (data: string): string => {
+  switch (data) {
+    case "busy":
+      return "red";
+    case "available":
+      return "green";
+    default:
+      return "yellow";
+  }
+};
+
+const DIV = styled.div`
+  font-size: 12px;
+  width: 100vw;
+  height: 100vh;
+  background-color: ${(props) => setColorByStatus(props.theme.status)};
+`;
+
+function Status() {
+  const [status, setStatus] = React.useState<string>("");
 
   useQuery(
     "todos",
@@ -12,7 +32,7 @@ function App() {
       const { data } = await axios.get(
         "https://patchbay.pub/pubsub/cabeda-status"
       );
-      setValue(data.toString());
+      setStatus(data.toString());
       return data;
     },
     {
@@ -21,25 +41,23 @@ function App() {
     }
   );
 
-  const DIV = styled.div`
-    font-size: 12px;
-    width: 100vw;
-    height: 100vh;
-    background-color: ${() => setColorByStatus(value)};
-  `;
-
-  const setColorByStatus = (data: string): string => {
-    switch (data) {
-      case "busy":
-        return "red";
-      case "available":
-        return "green";
-      default:
-        return "yellow";
-    }
+  const theme = {
+    status: status,
   };
 
-  return <DIV></DIV>;
+  return (
+    <ThemeProvider theme={theme}>
+      <DIV></DIV>
+    </ThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Status></Status>;
+    </QueryClientProvider>
+  );
 }
 
 export default App;
